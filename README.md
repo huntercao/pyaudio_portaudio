@@ -19,10 +19,10 @@ For all the build steps and usages of the project for x64, please take reference
     .\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe
 # Build steps:
 ### 1. 
-We have copied the win32 python libraries to "C:\Python27\libs_x86". This path is specified
-in setup_x86.py.
+Specify the win32 python libraries path "[library_dirs]" in setup_x86.py. 
+We have copied the win32 python libraries to "C:\Python27\libs_x86" and specify this path as "[library_dirs]". 
 ### 2.
-Create 32bit portaudio library with VS2018 with the below solution file:
+Create 32bit portaudio library with VS2017 with the below solution file:
 ```bash
 ./pyaudio_portaudio/pyaudio/portaudio-v19/build/msvc/portaudio.sln
 ```

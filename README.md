@@ -1,80 +1,44 @@
-# _Precompiled & Extended_ | PyAudio with PortAudio for Windows
-
-#### _Used versions_: <br>&middot; PyAudio 0.2.11 | co 7090e25bcba41413bd7ce89aa73bc0efb1ae1ca1<br>&middot; PortAudio V19 | co 1bdcb9e41357ec76d8cf73f9ef278202a3ea1e3b
+# _Precompiled & Extended_ | PyAudio with PortAudio for Windows | x86 DLL
 
 #### Extensions:<br>&middot; Support of Windows sound loopback: Record the output of your soundcard
 
 ---
-This project is a fork of two open source projects. If you'd like, give them some love:
-- http://www.portaudio.com/
-- https://people.csail.mit.edu/hubert/pyaudio/
+It is a fork of project:
+- https://github.com/intxcc/pyaudio_portaudio
 
----
+In our case, we have a Win32 Python application that need record audio stream from 
+the loopback pin of default render device. Here we update the Intxcc's project.
 
-# Usage
+For all the build steps and usages of the project for x64, please take reference to the original project.
 
-See the [example](https://github.com/intxcc/pyaudio_portaudio/tree/master/example).
-
-Exactly like the official PyAudio but with the extra option "as_loopback" which expects a boolean.
-```python
-import pyaudio
-p = pyaudio.PyAudio()
-stream = p.open([...], as_loopback = True)
-```
-
-# How to install?
-
-### You can find the precompiled PyAudio build, static linked with PortAudio, as well as only the static linked PortAudio in the [release](https://github.com/intxcc/pyaudio_portaudio/releases).
-
-I will try to rebuild the project on each update from one of the used projects.
-
-# How to build?
-
-## Cygwin
-
-You will need a working cygwin installation with basic developer tools and python.
-
-#### 1.
-Change to */pyaudio/portaudio-v19* and type
+# The build environment: 
+1. Windows x64 PC, Visual Studio 2017.
+2. Installed x64 version of Python: 
+    C:\Python27\python.exe
+3. Local independent-running Win32 version of Python. 
+    .\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe
+#Build steps:
+### 1. 
+We have copied the win32 python libraries to "C:\Python27\libs_x86". This path is specified
+in setup_x86.py.
+### 2.
+Create 32bit portaudio library with VS2018 with the below solution file:
 ```bash
-./configure --with-winapi=wasapi --enable-static=yes --enable-shared=no
-make loopback
+./pyaudio_portaudio/pyaudio/portaudio-v19/build/msvc/portaudio.sln
 ```
-
-To rebuild type
+### 3.
+Run setup_x86.py to create x86 version of pyaudio dll for python. 
 ```bash
-make clean
-make loopback
+$>python.exe .\setup_x86.py build --static-link --plat-name=win32 2>&1 | tee setup.txt
 ```
-
-#### 2.
-Change to /pyaudio and type
+The setup_x86.py is updated from original setup.py.
+### 3.
+Register the x86 extension dll with win32 python.
 ```bash
-python setup.py install --static-link
+$>.\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe .\setup_x86.py install --static-link
 ```
-
-## Microsoft Visual Studio (2017)
-
-You will need to include the python executable in PATH.
-
-#### 1.
-
-- Open the portstudio project located in *pyaudio\portaudio-v19\build\msvc\portaudio.sln*.
-
-- Open the project configuration and make sure that the configuration type is set to static library.
-
-- Select the build type __Release__ and __x64__. Then build the project.
-
-- Make sure the build was succesful and the file *pyaudio\portaudio-v19\build\msvc\x64\Release\portaudio.lib* does exist.
-
-#### 2.
-
-Open the PowerShell __as administrator__ and change the directory. Then you can build and install pyaudio with portaudio:
-
+Here are 2 examples to use the loopback device:
+```bash
+./example/echo_default.py
+./example/record_loopback.py
 ```
-cd <Location of the repository>\pyaudio_portaudio\pyaudio
-python.exe .\setup.py install --static-link
-```
-
-# Help!!
-If you get errors, let me know. Thank you &hearts;

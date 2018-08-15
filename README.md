@@ -17,7 +17,7 @@ For all the build steps and usages of the project for x64, please take reference
     C:\Python27\python.exe
 3. Local independent-running Win32 version of Python. 
     .\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe
-#Build steps:
+# Build steps:
 ### 1. 
 We have copied the win32 python libraries to "C:\Python27\libs_x86". This path is specified
 in setup_x86.py.

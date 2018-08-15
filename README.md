@@ -27,17 +27,20 @@ Create 32bit portaudio library with VS2018 with the below solution file:
 ./pyaudio_portaudio/pyaudio/portaudio-v19/build/msvc/portaudio.sln
 ```
 ### 3.
-Run setup_x86.py to create x86 version of pyaudio dll for python. 
+Run setup_x86.py to create x86 version of pyaudio dll. 
 ```bash
-$>python.exe .\setup_x86.py build --static-link --plat-name=win32 2>&1 | tee setup.txt
+$python.exe .\setup_x86.py build --static-link --plat-name=win32
 ```
-The setup_x86.py is updated from original setup.py.
-### 3.
+The setup_x86.py is updated from original setup.py. 
+The python.exe here is installed x64 version.
+### 4.
 Register the x86 extension dll with win32 python.
 ```bash
-$>.\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe .\setup_x86.py install --static-link
+$.\WinPython-32bit-2.7.5.3\python-2.7.5\python.exe .\setup_x86.py install --static-link
 ```
-Here are 2 examples to use the loopback device:
+The python.exe here is win32 version.
+
+# Here are 2 new examples to use the loopback pin
 ```bash
 ./example/echo_default.py
 ./example/record_loopback.py
